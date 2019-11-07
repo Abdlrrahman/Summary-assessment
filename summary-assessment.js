@@ -58,8 +58,16 @@ function each(coll, f) {
   //solve it using the most appropriate helper functions(reduce,each,map,filter).
   //wordLengths("hello its me") // [5,3,2]
   
+  //I implemented my code by creating two arrays, one of them was the string but splited and the other was empty and using the each function to iterate trpough one and push the length of its elemnts into the other
+
   function wordLengths(str) {
-      // TODO: your code here 
+    var array1 = str.split(" ");
+    var array2 = [];
+
+    each(array1, function(element, i) {
+      array2.push(element.length);
+    }) 
+    return array2;
   }
   
   //=============================================================================
@@ -70,9 +78,19 @@ function each(coll, f) {
   //solve it using the most appropriate helper functions(reduce,each,map,filter).
   // countOccurrences("hello", "l"); // 2
   // countOccurrences("hello, world!", "l"); // 3
+
+  //I implemented my code by creating a varible called count and set to zerom and called the each function to iterait through thwe string to find the number of occurrences in the string and each time the was a match, one was added to the count.
   
   function countOccurrences(string, character) {
-      // your code is here
+    var count = 0;
+
+    each(string, function(element, i) {
+
+      if(element === character) {
+        count++;
+      }
+    })
+    return count;
   }
   
   //=============================================================================
@@ -82,9 +100,19 @@ function each(coll, f) {
   //with only the words of length that are longer than 3.
   //solve it using the most appropriate helper functions(reduce,each,map,filter).
   // wordsLongerThanThree("Hello Mad World") //["Hello", "World"]
+
+  //I implemented my code by creating two arrays, one of them was the string but splited and the other was empty and using the each function to iterate trpough one and push the length greater than 3 of its elemnts into the other
   
   function wordsLongerThanThree(str) {
-      // TODO: your code here 
+    var array1 = str.split(" ");
+    var array2 = [];
+
+    each(array1, function(element, i) {
+      if(element.length > 3) {
+        array2.push(element);
+      }
+    }) 
+    return array2;
   }
   
   //=============================================================================
@@ -97,9 +125,22 @@ function each(coll, f) {
   //repeatString('dog', 1); // => 'dog' 
   //repeatString('dog', 2); // => 'dog' + 'dog' => 'dogdog' 
   //repeatString('dog', 3); // => 'dog' + 'dog' + 'dog' => 'dogdogdog'
+
+  //I implemented my code usaing tow varibles i which equels zero and string ewhich is an emotey string and used closuers and recursion to add the str to tthe tring for the number of count
   
   function repeatString(str, count) { 
-   // TODO: your code here 
+    var i = 0;
+    var string = "";
+      function repeated() {
+        if(i === count) {
+          return string
+        }
+        else {
+          string +=str;
+        }
+        return repeated(str, i++)
+      }
+   return  repeated(str, i);
   } 
    
   
@@ -129,7 +170,30 @@ function each(coll, f) {
   // pizza.eatSlice();
   
   // Write your code here .....
-  
+
+  //I used closurs to add Ingredients an ddisplay them and bake them using the functions respictivly.
+
+  function makePizza(str1, str2, str3) {
+    var pizza = {
+      crust : str1,
+      size : str2,
+      numberOfSlice : str3
+    }
+    var ingredients = "";
+    return {
+      addIngredients : function(str) {
+        ingredients += str;
+        ingredients.split(", ")
+      },
+      displayIngredaints : function() {
+        return "The ingredients are: " + ingredients;
+      },
+      bakePizza : function() {
+        setTimeout(console.log("Your " + pizza.crust + " " + pizza.size + " " + pizza.numberOfSlice + " is done"),2*1000);
+      }
+    }
+  }
+
   //=============================================================================
   /*                                  Q6                                      */
   //=============================================================================
@@ -153,9 +217,56 @@ function each(coll, f) {
   */
   
   // Now, to make sure that you are actually reading, make a comment below this and type: Yes I am
+
+  //Yes I am
   
+  //I created many functins and limked them to the object in the class in order to invoke them usinf the calss.
+
   // Write your code here .....
-  
+
+  function ReadingList() {
+    var list = {};
+    var numberOfBooks = 0;
+    var nameOfBooks = [];
+    var currentBook = "";
+    list.currentBook = currentBook;
+    list.nameOfBooks = nameOfBooks;
+    list.numberOfBooks = numberOfBooks;
+    list.read = read;
+    list.unRead = unRead;
+    list.toRead = toRead;
+    list.currentRead = currentRead;
+    list.readBooks = readBooks;
+    list.addBook = addBook;
+    list.finishCurrentBook = finishCurrentBook;
+    return list;
+  }
+  function read(number) {
+    this.numberOfBooks += number;
+  }
+  function unRead(number) {
+    this.numberOfBooks += number;
+  }
+  function toRead(names) {
+    this.nameOfBooks.push(names);
+  }
+  function currentRead(name) {
+    this.currentBook = name;
+  }
+  function readBooks(names) {
+    this.nameOfBooks.push(names);
+  }
+  function addBook(name) {
+    this.toRead(name);
+    this.unRead(1);
+  }
+  function finishCurrentBook() {
+    this.readBooks(this.currentRead());
+    this.read(1);
+    this.currentRead(this.toRead[0]);
+    this.unRead(-1);
+  }
+
   //=============================================================================
   /*                                  Q7                                       */
   //=============================================================================
@@ -174,12 +285,41 @@ function each(coll, f) {
   //  safe('silver-bar','big') => "Can't fit"
   //  safe('money','small') => "watch gold-bar money"
   
+  // I created  two varibles to check form the input and crteated a function that checks for the size of the elements.
+
   // Write your code here .....
+  function makeSafe(number) {
+    var size = 0;
+    var string = "";
+
+    return function addItem(item, itemSize) {
+      string += item + " ";
+      if(number > 0) {
+        if(itemSize === 'big'){
+          size += 3;
+        }
+        if(itemSize === 'medium'){
+          size += 2;           
+        }
+        if(itemSize === 'small'){
+          size += 1;
+        }
+        if(size > number) {
+          return "Can't fit";
+        }
+        if(size === number) {
+          return string;
+        }
+      }
+    }
+  }
   
   //=============================================================================
   /*                                  Q8                                       */
   //=============================================================================
   
+  //I traid to do as mush as I can.
+
   //Create HTML, CSS & JS files and connect them together
   //Add Two text input fields, one with a placeholder input, and another with color
   //Add a button below them and an empty unordered list below the button
@@ -194,7 +334,9 @@ function each(coll, f) {
   //================================================================================
   /*                              Q9                                            */
   //================================================================================
-  
+
+  //I traid to do as mush as I can.
+
   //Create HTML, CSS & JS files
   //Link jQuery
   //Create an empty unordered list
@@ -216,10 +358,18 @@ function each(coll, f) {
   //================================================================================
   // Theoretical questions.
   // 1- In your own words,Why do we use Closures ?
+
+  // to be DRY and to make it easier for the user to store his data, and to make thwe code shorter.
   
   // 2- In OOP, what does "this" refer to ?
+
+  //it refers to the instusion of the element.
   
   // 3- What is jQuery?
   
+  //It is a library that helps in implementing javaScript.
+
   // 4- what is the diffrence between Closure's methods and The OOP's methods?
+
+  // Closure methods are inside the body of the function and OOP methods are outside but are called insisde the function.
   
